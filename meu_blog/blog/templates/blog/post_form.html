@@ -4,14 +4,9 @@
 
 {% block content %}
     <h2>{% if post %}Editar Post{% else %}Novo Post{% endif %}</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data"> 
         {% csrf_token %}
-        <label for="title">Título:</label>
-        <input type="text" name="title" id="title" value="{{ post.title|default:'' }}"><br>
-        <label for="content">Conteúdo:</label>
-        <textarea name="content" id="content">{{ post.content|default:'' }}</textarea><br>
-        <label for="image">Imagem:</label>
-        <input type="file" name="image" id="image"><br>
+        {{ form.as_p }}  
         <button type="submit">Salvar</button>
     </form>
     <a href="{% url 'post-list' %}">Cancelar</a>
