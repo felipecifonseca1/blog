@@ -1,40 +1,42 @@
-from django.shortcuts import render, get_object_or_404, redirect
+# from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
-def post_list(request):
-    posts = Post.objects.all().order_by('-date_posted')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
 
-from .forms import PostForm
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content', 'image']  
+    template_name = 'blog/post_form.html'
+    success_url = reverse_lazy('post-list')
 
-def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)  
-        if form.is_valid():
-            form.save()
-            return redirect('post-list')
-    else:
-        form = PostForm()
-    return render(request, 'blog/post_form.html', {'form': form})
+    # def get_form(self, *args, **kwargs):
+    
+    #     form = super().get_form(*args, **kwargs)
+    #     form.enctype = 'multipart/form-data'
+    #     return form
 
-def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('post-detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'blog/post_form.html', {'form': form})
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ['title', 'content', 'image']  
+    template_name = 'blog/post_form.html'
+    success_url = reverse_lazy('post-list')
 
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        post.delete()
-        return redirect('post-list')
-    return render(request, 'blog/post_confirm_delete.html', {'post': post})
+    # def get_form(self, *args, **kwargs):
+    #     form = super().get_form(*args, **kwargs)
+    #     form.enctype = 'multipart/form-data'
+    #     return form
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'
+    success_url = reverse_lazy('post-list')
