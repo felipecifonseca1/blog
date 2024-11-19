@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Meu blog</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'post-list' %}">Home</a></li>
+                <li><a href="{% url 'post-create' %}">Criar Post</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Blog. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
