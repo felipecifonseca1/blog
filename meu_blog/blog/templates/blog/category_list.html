@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="categories-section">
+        <h2>Categorias</h2>
+        <ul class="categories-list">
+            {% for category in categories %}
+                <li class="category-item">
+                    <a href="{% url 'category-detail' category.id %}" class="category-link">
+                        <strong>{{ category.name }}</strong>
+                    </a>
+                    <p class="category-description">{{ category.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

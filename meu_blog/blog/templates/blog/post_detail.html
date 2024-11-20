@@ -3,6 +3,12 @@
 {% block title %}Detalhes do Post{% endblock %}
 
 {% block content %}
+    <h3>Categorias:</h3>
+    <ul>
+        {% for category in post.categories.all %}
+            <li><a href="{% url 'category-detail' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
     <h2>{{ post.title }}</h2>
     <p>{{ post.content }}</p>
     <p><small>Postado em {{ post.date_posted|date:"d M Y H:i" }}</small></p>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="category-details">
+        <header class="category-header">
+            <h2 class="category-title">Categoria: {{ category.name }}</h2>
+            <p class="category-description">{{ category.description }}</p>
+        </header>
+
+        <section class="category-posts">
+            <h3 class="posts-title">Posts Relacionados</h3>
+            {% if posts %}
+                <ul class="posts-list">
+                    {% for post in posts %}
+                        <li class="post-item">
+                            <a href="{% url 'post-detail' post.id %}" class="post-link">
+                                {{ post.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-posts">Nenhum post disponível para esta categoria.</p>
+            {% endif %}
+        </section>
+    </section>
+{% endblock %}

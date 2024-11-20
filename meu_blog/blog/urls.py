@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,CategoryListView, CategoryDetailView
 
 urlpatterns = [
     path('', PostListView.as_view(), name='post-list'),
@@ -12,3 +12,8 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    path('categories/', CategoryListView.as_view(), name='category-list'),
+    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
+]
